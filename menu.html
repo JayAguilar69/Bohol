@@ -10,7 +10,12 @@
             --secondary-color: #00264d; /* Darker Blue */ 
             --text-color: #000000; /* Black */
             --light-color: #f0f8ff; /* Light Blue */ 
-            --accent-color: #87CEEB; /* Sky Blue */ 
+            --accent-color: #87CEEB; /* Sky Blue */
+            --menu-gradient-start: #1e3a8a; /* Deep blue for gradient start */
+            --menu-gradient-end: #3b82f6; /* Medium blue for gradient end */
+            --menu-text: #ffffff; /* White text for menu */
+            --menu-hover: #fde68a; /* Light yellow for hover state */
+            --menu-active: #facc15; /* Yellow for active state */
         }
         
         * {
@@ -82,61 +87,10 @@
             opacity: 0.9;
         }
         
-        /* Navigation */
-        nav {
-            background-color: var(--secondary-color);
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-        }
-        
-        .nav-links {
-            display: none;
-            list-style: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: var(--secondary-color);
-            width: 250px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-            z-index: 999;
-            flex-direction: column;
-        }
-        
-        .nav-links.active {
-            display: flex;
-        }
-        
-        .nav-links li {
-            position: relative;
-            transition: background-color 0.3s;
-            width: 100%;
-        }
-        
-        .nav-links li a {
-            color: white;
-            text-decoration: none;
-            padding: 15px 20px;
-            display: block;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .nav-links li:hover {
-            background-color: var(--primary-color);
-        }
-        
-        .nav-links li:hover a {
-            transform: translateY(-3px);
-        }
-        
+        /* NEW NAVIGATION STYLES */
         .hamburger {
-            display: block;
+            display: none;
             cursor: pointer;
-            padding: 15px;
             background: none;
             border: none;
             color: white;
@@ -144,10 +98,118 @@
             z-index: 1000;
         }
         
-       
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links li {
+            position: relative;
+            margin: 0 2px;
+        }
+        
+        .nav-links li a {
+            color: var(--menu-text);
+            text-decoration: none;
+            padding: 10px 18px;
+            display: block;
+            font-weight: 500;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--menu-gradient-start), var(--menu-gradient-end));
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-links li a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .nav-links li a:hover:before {
+            left: 100%;
+        }
+        
+        .nav-links li a:hover {
+            color: var(--menu-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .nav-links li a.active {
+            background: linear-gradient(135deg, var(--menu-gradient-end), var(--menu-gradient-start));
+            color: var(--menu-active);
+            font-weight: 600;
+        }
+        
+        /* Mobile menu styles */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: linear-gradient(135deg, var(--menu-gradient-start), var(--menu-gradient-end));
+                width: 250px;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+                z-index: 999;
+                border-radius: 0 0 10px 10px;
+                padding: 10px;
+                overflow: hidden;
+            }
+            
+            .nav-links.active {
+                display: flex;
+                animation: slideDown 0.3s ease forwards;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .nav-links li {
+                margin: 5px 0;
+                width: 100%;
+            }
+            
+            .nav-links li a {
+                border-radius: 10px;
+                padding: 12px 20px;
+                text-align: left;
+                border-left: 3px solid transparent;
+            }
+            
+            .nav-links li a:hover {
+                border-left: 3px solid var(--menu-hover);
+                transform: translateX(5px);
+            }
+        }
+        
         .hero {
             height: 80vh;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(view.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(Bohol\ Municipal\ Hall.jpg);
             background-size: cover;
             background-position: center;
             display: flex;
@@ -617,10 +679,6 @@
         }
         
         @media (max-width: 768px) {
-            .nav-links {
-                width: 100%;
-            }
-            
             .hero {
                 height: 70vh;
             }
@@ -682,12 +740,11 @@
                 </div>
                 <div>
                     <div class="site-title">Municipality of Bohol</div>
-                    <div class="site-subtitle">Province of Bohol</div>
                 </div>
             </div>
             <button class="hamburger">&#9776;</button>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
+                <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#barangays">Barangays</a></li>
                 <li><a href="#services">Services</a></li>
@@ -700,9 +757,8 @@
      
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>Welcome to Bohol</h1>
-            <p>The Progressive Municipality in the Heart of Bohol Province</p>
-            <a href="#about" class="hero-btn">Explore More</a>
+            <h1>Welcome to Bohol Mam and Sir</h1>
+            <a href="#about" class="hero-btn">Explore our Place</a>
         </div>
     </section>
     
@@ -869,99 +925,63 @@
                     </div>
                     <div class="service-info">
                         <h3>Social Welfare Services</h3>
-                        <p>The Municipal Social Welfare and Development Office provides various social welfare programs and services to vulnerable sectors including children, elderly, persons with disabilities, and families in need. We aim to improve the quality of life of our constituents through our support programs.</p>
-                        <p>Services: Financial Assistance, Relief Operations, Community Development, and Livelihood Programs.</p>
+                        <p>The Municipal Social Welfare and Development Office provides assistance to vulnerable sectors of the community including children, elderly, persons with disabilities, and families in crisis situations. We implement various social protection programs and services.</p>
+                        <p>Services: Financial Assistance, Livelihood Programs, Community Development, and Crisis Intervention.</p>
                     </div>
                 </div>
                 
                 <div class="service-card animate-fade-in">
                     <div class="service-img">
-                        <img src="Tourism Support.jpg" alt="Tourism Support">
+                        <img src="disaster.jpg" alt="Disaster Risk Reduction">
                     </div>
                     <div class="service-info">
-                        <h3>Tourism Support</h3>
-                        <p>The municipality actively supports tourism initiatives through infrastructure development, cultural preservation, and promotion of local attractions. We believe that tourism is key to the sustainable development of our community.</p>
-                        <p>Programs: Tourist Information Center, Cultural Heritage Preservation, and Tourism Infrastructure Support.</p>
+                        <h3>Disaster Risk Reduction</h3>
+                        <p>The Municipal Disaster Risk Reduction and Management Office (MDRRMO) is responsible for implementing disaster preparedness, prevention, mitigation, response, and recovery programs. We work to ensure the safety and resilience of the community during emergencies.</p>
+                        <p>Activities: Disaster Drills, Emergency Response Training, Early Warning Systems, and Relief Operations.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     
-   
+    <!-- News Section -->
     <section id="news" class="news">
         <div class="container">
             <h2 class="section-title">Latest News</h2>
             <div class="news-grid">
                 <div class="news-card animate-fade-in">
                     <div class="news-img">
-                        <img src="Infrastructure Development.jpg" alt="Infrastructure Development">
+                        <img src="Cultural Festival.jpg" alt="Municipal Fiesta Celebration">
+                    </div>
+                    <div class="news-info">
+                        <span class="news-date">May 15, 2025</span>
+                        <h3>Municipal Fiesta Celebration Set for Next Month</h3>
+                        <p>The Municipality of Bohol is preparing for its annual fiesta celebration next month. Various activities are lined up including cultural performances, sports events, trade fair, and religious ceremonies.</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </div>
+                
+                <div class="news-card animate-fade-in">
+                    <div class="news-img">
+                        <img src="Health Program.jpg" alt="New Health Center">
                     </div>
                     <div class="news-info">
                         <span class="news-date">May 10, 2025</span>
-                        <h3>New Public Market Construction Underway</h3>
-                        <p>The construction of the new Bohol Public Market has officially begun. This modern facility will provide better spaces for vendors and improved shopping experience for residents.</p>
-                        <a href="#" class="read-more">Read More</a>
+                        <h3>New Health Center Opens in Barangay Danao</h3>
+                        <p>The local government has inaugurated a new health center in Barangay Danao to bring healthcare services closer to residents. The facility is equipped with modern equipment and staffed by qualified healthcare professionals.</p>
+                        <a href="#" class="read-more">Read More →</a>
                     </div>
                 </div>
                 
                 <div class="news-card animate-fade-in">
                     <div class="news-img">
-                        <img src="Health Program.jpg" alt="Health Program">
+                        <img src="Tree.jpg" alt="Tree Planting Activity">
                     </div>
                     <div class="news-info">
                         <span class="news-date">May 5, 2025</span>
-                        <h3>Municipality Launches Comprehensive Health Program</h3>
-                        <p>The Municipal Health Office has launched a new health program that aims to provide better healthcare services to all residents,
-                        <a href="#" class="read-more">Read More</a>
-                    </div>
-                </div>
-                
-                <div class="news-card animate-fade-in">
-                    <div class="news-img">
-                        <img src="Agriculture News.jpg" alt="Agriculture News">
-                    </div>
-                    <div class="news-info">
-                        <span class="news-date">April 28, 2025</span>
-                        <h3>Farmers Receive Modern Agricultural Equipment</h3>
-                        <p>Local farmers received modern agricultural equipment as part of the municipality's agricultural modernization program. This initiative aims to improve productivity and income for our farmers.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </div>
-                </div>
-                
-                <div class="news-card animate-fade-in">
-                    <div class="news-img">
-                        <img src="Education Award.jpg" alt="Education Award">
-                    </div>
-                    <div class="news-info">
-                        <span class="news-date">April 15, 2025</span>
-                        <h3>Bohol Schools Recognized for Academic Excellence</h3>
-                        <p>Several schools in the municipality have been recognized for their academic excellence in the regional assessment. This achievement reflects the quality of education in our municipality.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </div>
-                </div>
-                
-                <div class="news-card animate-fade-in">
-                    <div class="news-img">
-                        <img src="Tourism News.jpg" alt="Tourism News">
-                    </div>
-                    <div class="news-info">
-                        <span class="news-date">April 10, 2025</span>
-                        <h3>Bohol Welcomes Record Number of Tourists</h3>
-                        <p>The municipality has recorded the highest number of tourists in the first quarter of 2025. This boost in tourism has significantly contributed to the local economy.</p>
-                        <a href="#" class="read-more">Read More</a>
-                    </div>
-                </div>
-                
-                <div class="news-card animate-fade-in">
-                    <div class="news-img">
-                        <img src="Cultural Festival.jpg" alt="Cultural Festival">
-                    </div>
-                    <div class="news-info">
-                        <span class="news-date">April 5, 2025</span>
-                        <h3>Annual Cultural Festival to be Held Next Month</h3>
-                        <p>The municipality's annual cultural festival will be held next month, showcasing the rich heritage, traditions, and local products of Bohol. Preparations are now underway for this grand celebration.</p>
-                        <a href="#" class="read-more">Read More</a>
+                        <h3>Community Tree Planting Activity Launched</h3>
+                        <p>As part of the municipality's environmental protection program, a community tree planting activity was launched last weekend. Over 500 residents participated in planting native tree species in designated watershed areas.</p>
+                        <a href="#" class="read-more">Read More →</a>
                     </div>
                 </div>
             </div>
@@ -976,37 +996,37 @@
                 <div class="contact-info animate-fade-in">
                     <div class="contact-item">
                         <div class="contact-icon">
-                            <i>📍</i>
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="contact-details">
-                            <h4>Our Address</h4>
+                            <h4>Address</h4>
                             <p>Municipal Hall, Poblacion, Bohol, Bohol Province, Philippines</p>
                         </div>
                     </div>
                     
                     <div class="contact-item">
                         <div class="contact-icon">
-                            <i>📞</i>
+                            <i class="fas fa-phone"></i>
                         </div>
                         <div class="contact-details">
-                            <h4>Phone Number</h4>
-                            <p> 412-1188 / 411-0138</p>
+                            <h4>Phone</h4>
+                            <p>(038) 123-4567</p>
                         </div>
                     </div>
                     
                     <div class="contact-item">
                         <div class="contact-icon">
-                            <i>✉️</i>
+                            <i class="fas fa-envelope"></i>
                         </div>
                         <div class="contact-details">
-                            <h4>Email Address</h4>
+                            <h4>Email</h4>
                             <p>info@boholmunicipality.gov.ph</p>
                         </div>
                     </div>
                     
                     <div class="contact-item">
                         <div class="contact-icon">
-                            <i>⏰</i>
+                            <i class="fas fa-clock"></i>
                         </div>
                         <div class="contact-details">
                             <h4>Office Hours</h4>
@@ -1016,7 +1036,7 @@
                 </div>
                 
                 <div class="contact-form animate-slide-in">
-                    <form>
+                    <form action="#" method="post">
                         <div class="form-group">
                             <label for="name">Your Name</label>
                             <input type="text" id="name" class="form-control" required>
@@ -1033,7 +1053,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="message">Your Message</label>
+                            <label for="message">Message</label>
                             <textarea id="message" class="form-control" required></textarea>
                         </div>
                         
@@ -1044,57 +1064,7 @@
         </div>
     </section>
     
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-logo">
-                    <img src="logo.png" alt="Municipality of Bohol Logo">
-                    <p>The Municipality of Bohol is committed to providing quality services to its constituents and promoting sustainable development in the community.</p>
-                </div>
-                
-                <div class="footer-links">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#barangays">Barangays</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#news">News</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-links">
-                    <h3>Government Links</h3>
-                    <ul>
-                        <li><a href="#">Province of Bohol</a></li>
-                        <li><a href="#">DILG</a></li>
-                        <li><a href="#">DOH</a></li>
-                        <li><a href="#">DOST</a></li>
-                        <li><a href="#">DepEd</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-links">
-                    <h3>Connect With Us</h3>
-                    <ul>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">YouTube</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Municipality of Bohol. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
-
     <script>
-        // JavaScript for navigation toggle
         document.addEventListener('DOMContentLoaded', function() {
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
@@ -1103,50 +1073,78 @@
                 navLinks.classList.toggle('active');
             });
             
-            // Close menu when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+            // Close mobile menu when a link is clicked
+            const links = document.querySelectorAll('.nav-links a');
+            links.forEach(link => {
+                link.addEventListener('click', () => {
                     navLinks.classList.remove('active');
-                }
+                });
             });
             
             // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
+                anchor.addEventListener('click', function(e) {
                     e.preventDefault();
                     
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const headerOffset = 100;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        
                         window.scrollTo({
-                            top: target.offsetTop - 100,
+                            top: offsetPosition,
                             behavior: 'smooth'
                         });
-                        
-                        // Close mobile menu after clicking
-                        navLinks.classList.remove('active');
                     }
                 });
             });
             
-            // Add animations on scroll
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        if (entry.target.classList.contains('animate-fade-in')) {
-                            entry.target.style.animation = 'fadeIn 1s ease-in-out forwards';
-                        } else if (entry.target.classList.contains('animate-slide-in')) {
-                            entry.target.style.animation = 'slideInFromBottom 1s ease-in-out forwards';
-                        }
+            // Active menu item based on scroll position
+            const sections = document.querySelectorAll('section');
+            const navItems = document.querySelectorAll('.nav-links a');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                const headerHeight = document.querySelector('header').offsetHeight;
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - headerHeight - 20;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (window.pageYOffset >= sectionTop) {
+                        current = section.getAttribute('id');
                     }
                 });
-            }, {
-                threshold: 0.1
+                
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === `#${current}`) {
+                        item.classList.add('active');
+                    }
+                });
             });
             
-            document.querySelectorAll('.animate-fade-in, .animate-slide-in').forEach(el => {
-                el.style.opacity = '0';
-                observer.observe(el);
-            });
+            // Animation on scroll
+            const animateOnScroll = () => {
+                const elements = document.querySelectorAll('.animate-fade-in, .animate-slide-in');
+                
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 50) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            };
+            
+            // Initial run and add scroll event listener
+            animateOnScroll();
+            window.addEventListener('scroll', animateOnScroll);
         });
     </script>
 </body>
